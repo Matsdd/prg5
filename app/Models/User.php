@@ -57,4 +57,20 @@ class User extends Authenticatable
     {
         return $this->favorites()->where('post_id', $post->id)->exists();
     }
+
+    public function updateAdminRights($userId)
+    {
+        // Find the user by ID
+        $user = User::find($userId);
+
+        if ($user) {
+            // Update the admin_rights column for the user
+            $user->admin_rights = 1; // Set to the desired value (1 for admin, 0 for non-admin)
+            $user->save();
+
+            return redirect()->back()->with('success', 'Admin rights updated successfully.');
+        }
+
+        return redirect()->back()->with('error', 'User not found.');
+    }
 };

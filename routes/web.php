@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController as PC;
-
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +20,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/posts/{post}/edit', [PC::class, 'edit'])->name('posts.edit');
+Route::patch('/posts/{post}', [PC::class, 'update'])->name('posts.update');
+
 Route::get('/posts', [PC::class, 'index'])->name('posts.index');
 Route::post('/posts/toggleFavorite/{post}', [PC::class, 'toggleFavorite'])->name('posts.toggleFavorite');
+Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+Route::delete('/posts/{post}', [PC::class, 'delete'])->name('posts.delete');
 Route::middleware(['auth'])->group(function () {
 Route::get('/posts/create', [PC::class, 'create'])->name('posts.create');
 Route::post('/posts', [PC::class, 'store'])->name('posts.store');

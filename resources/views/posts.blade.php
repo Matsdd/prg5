@@ -2,19 +2,19 @@
 
 @section('content')
 
-@foreach ($posts as $post)
+    <div class="container mt-4">
+        <h1 class="mb-4">All Posts</h1>
 
-    <div class="container">
-        <div class="mb-5"></div>
-            <div class="row justify-content-center">
-                <div class="col-md-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach ($posts as $post)
+                <div class="col">
                     <div class="card">
                         <div class="card-header">
-                            <div class="row justify-content-between">
-                            <h2>{{ $post->title }}</h2>
-
-                                <h4>{{ $post->user->name}}</h4>
-
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h1>{{ $post->title }}</h1>
+                                    <h4>By {{ $post->user->name}}</h4>
+                                </div>
                                 @auth
                                     <form method="POST" action="{{ route('posts.toggleFavorite', $post->id) }}">
                                         @csrf
@@ -23,18 +23,26 @@
                                             {{ auth()->user()->hasFavorited($post) ? 'Unfavorite' : 'Favorite' }}
                                         </button>
                                     </form>
+                                    @if(auth()->user()->id === $post->user->id)
+                                        {{-- Show edit and delete buttons only for the post creator --}}
+                                        <form method="POST" action="{{ route('posts.delete', $post->id) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary">Edit</a>
+                                    @endif
                                 @endauth
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row justify-content-around">
-                                <img src="{{ asset('storage/' . $post->picture) }}" alt="Post Picture">
-                                <p>{{ $post->description }}</p>
-                            </div>
+                            <img src="{{ asset('storage/' . $post->picture) }}" class="img-fluid" alt="Post Picture">
+                            <p class="mt-2">{{ $post->description }}</p>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
+        </div>
     </div>
-@endforeach
+
 @endsection

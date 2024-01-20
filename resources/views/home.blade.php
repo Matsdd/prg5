@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('You are logged in succesfully!') }}
 
 
                 </div>
@@ -28,12 +28,7 @@
             <div class="row justify-content-between">
                 <div class="card">
                     <div class="card-body">
-            <a href="{{ route('posts.create') }}">{{ __('Create a post!') }}</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-            <a href="{{ route('posts.index') }}">{{ __('View other posts!') }}</a>
+                        <a class="dropdown-item" href="{{ route('posts.index') }}">{{ __('Click here to view posts!') }}</a>
                     </div>
                 </div>
             </div>

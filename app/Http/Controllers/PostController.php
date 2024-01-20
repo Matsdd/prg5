@@ -42,6 +42,39 @@ class PostController extends Controller
         return redirect('/posts');
     }
 
+    public function delete(Post $post)
+    {
+        // Ensure the authenticated user is the post creator before deleting
+        if (auth()->user()->id === $post->user_id) {
+            $post->delete();
+            return redirect()->back()->with('success', 'Post deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'You do not have permission to delete this post.');
+        }
+    }
+
+    public function edit(Post $post)
+    {
+        return view('posts.edit', compact('post'));
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+            // Add other validation rules as needed
+        ]);
+
+        $post->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            // Update other fields as needed
+        ]);
+
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+    }
+
     public function toggleFavorite(Request $request, Post $post)
     {
         $user = auth()->user();
