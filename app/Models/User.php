@@ -43,8 +43,18 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function Post()
+    public function post()
     {
-        return $this->belongsToMany(Post::class);
+        return $this->hasMany(Post::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function hasFavorited(Post $post)
+    {
+        return $this->favorites()->where('post_id', $post->id)->exists();
     }
 };
