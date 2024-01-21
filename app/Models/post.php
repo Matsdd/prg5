@@ -7,17 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'title',
-        'description',
-        'picture'
-    ];
+    protected $fillable = ['title', 'description', 'user_id', 'picture'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 
     public function favorites()

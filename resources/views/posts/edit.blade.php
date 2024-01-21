@@ -19,8 +19,6 @@
                 <textarea class="form-control" id="description" name="description">{{ $post->description }}</textarea>
             </div>
 
-            <!-- Add other form fields as needed -->
-
             <button type="submit" class="btn btn-primary">Update Post</button>
         </form>
 
