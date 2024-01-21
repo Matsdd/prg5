@@ -20,6 +20,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/update-admin-rights/{userId}', [UserController::class, 'updateAdminRights']);
+
 Route::get('/posts/{post}/edit', [PC::class, 'edit'])->name('posts.edit');
 Route::patch('/posts/{post}', [PC::class, 'update'])->name('posts.update');
 

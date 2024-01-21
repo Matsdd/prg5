@@ -61,7 +61,7 @@ class PostController extends Controller
         return view('posts.edit', compact('post'));
     }
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'title' => 'required|max:255',
@@ -69,10 +69,11 @@ class PostController extends Controller
             // Add other validation rules as needed
         ]);
 
+        $post = Post::findOrFail($id);
         $post->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            // Update other fields as needed
+            'updated_at' => now(), // Update the edited_at timestamp
         ]);
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');

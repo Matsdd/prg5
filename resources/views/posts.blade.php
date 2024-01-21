@@ -24,13 +24,16 @@
                                         </button>
                                     </form>
                                     @if(auth()->user()->id === $post->user->id)
-                                        {{-- Show edit and delete buttons only for the post creator --}}
-                                        <form method="POST" action="{{ route('posts.delete', $post->id) }}">
+                                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary">Edit</a>
+
+                                        <form method="POST" action="{{ route('posts.delete', $post->id) }}" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
-                                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary">Edit</a>
+                                            <button type="submit" class="btn btn-danger"
+                                                    {{ auth()->user()->admin_rights == 1 || ($post->updated_at != $post->created_at && auth()->user()->id == $post->user->id) ? '' : 'disabled' }}
+                                                    title="{{ $post->updated_at != $post->created_at ? '' : 'Edit post first!' }}">
+                                                Delete
+                                            </button>
                                     @endif
                                 @endauth
                             </div>
